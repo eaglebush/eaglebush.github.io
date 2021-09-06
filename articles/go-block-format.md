@@ -24,7 +24,8 @@ For example:
 		}
 
 		log.Println("You can enter the premises!")
-	}```
+	}
+	```
 
 With this length of the code, there isn't an apparent issue yet. However, when you need to validate a number of inputs, there will be a lot of clutter.
 
@@ -75,7 +76,8 @@ With this length of the code, there isn't an apparent issue yet. However, when y
 			}
 
 			log.Println("You can enter the premises!")
-		}```
+		}
+		```
 
 With this code, you can easily be lost where the err value belongs to. If you are reusing the boolean part of the return value, you'll find out that these things need to be in context.
 
@@ -130,6 +132,7 @@ When I encounter a situation like this, I use the if-semicolon syntax and put a 
 			}
 
 			log.Println("You can enter the premises!")
-		}```
+		}
+		```
 
 This format allows you to read the context of validation much clearer.
