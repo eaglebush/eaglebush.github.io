@@ -8,131 +8,131 @@ whether the argument is valid or not, and the error value returns a non-nil valu
 
 For example:
 
-	```go
-	func main () {
+```go
+func main () {
 
-		// Check legal age
-		age := 17
+	// Check legal age
+	age := 17
 
-		legal, err := IsLegalAge(age)
-		if err != nil {
-			log.Fatalf("error encountered: %w", err)
-		}
-
-		if !legal {
-			log.Fatalf("age %d is not yet legal", age)
-		}
-
-		log.Println("You can enter the premises!")
+	legal, err := IsLegalAge(age)
+	if err != nil {
+		log.Fatalf("error encountered: %w", err)
 	}
-	```
+
+	if !legal {
+		log.Fatalf("age %d is not yet legal", age)
+	}
+
+	log.Println("You can enter the premises!")
+}
+```
 
 With this length of the code, there isn't an apparent issue yet. However, when you need to validate a number of inputs, there will be a lot of clutter.
 
-	For example:
+For example:
 
-		```go
-		func main () {
+```go
+func main () {
 
-			var (
-				err error
-				valid bool
-			)
+	var (
+		err error
+		valid bool
+	)
 
-			// Check legal age
-			age := 17
+	// Check legal age
+	age := 17
 
-			valid, err = IsLegalAge(age)
-			if err != nil {
-				log.Fatalf("error encountered: %w", err)
-			}
+	valid, err = IsLegalAge(age)
+	if err != nil {
+		log.Fatalf("error encountered: %w", err)
+	}
 
-			if !valid {
-				log.Fatalf("age %d is not yet legal", age)
-			}
+	if !valid {
+		log.Fatalf("age %d is not yet legal", age)
+	}
 
-			// Check if card is accepted
-			card := `Visa`
+	// Check if card is accepted
+	card := `Visa`
 
-			valid, err = IsCardAccepted(card)
-			if err != nil {
-				log.Fatalf("error encountered: %w", err)
-			}
+	valid, err = IsCardAccepted(card)
+	if err != nil {
+		log.Fatalf("error encountered: %w", err)
+	}
 
-			if !valid {
-				log.Fatalf("A %s card is not honored here", card)
-			}
+	if !valid {
+		log.Fatalf("A %s card is not honored here", card)
+	}
 
-			// Check if the customer is carrying banned things
-			things := []string{`Gun`,`Cellphone`,`Booze`}
+	// Check if the customer is carrying banned things
+	things := []string{`Gun`,`Cellphone`,`Booze`}
 
-			valid, err = AreThingsAllowed(things)
-			if err != nil {
-				log.Fatalf("error encountered: %w", err)
-			}
+	valid, err = AreThingsAllowed(things)
+	if err != nil {
+		log.Fatalf("error encountered: %w", err)
+	}
 
-			if !valid {
-				log.Fatalf("You cannot carry %s inside", strings.Join(things, `,`))
-			}
+	if !valid {
+		log.Fatalf("You cannot carry %s inside", strings.Join(things, `,`))
+	}
 
-			log.Println("You can enter the premises!")
-		}
-		```
+	log.Println("You can enter the premises!")
+}
+```
 
 With this code, you can easily be lost where the err value belongs to. If you are reusing the boolean part of the return value, you'll find out that these things need to be in context.
 
 When I encounter a situation like this, I use the if-semicolon syntax and put a `true` value after it to group the code and allow the values returned by a validation function to pass through and further check the return values:
 
-		```go
-		func main () {
+```go
+func main () {
 
-			var (
-				err error
-				valid bool
-			)
+	var (
+		err error
+		valid bool
+	)
 
-			// Check legal age
-			age := 17
+	// Check legal age
+	age := 17
 
-			if valid, err = IsLegalAge(age); true {
+	if valid, err = IsLegalAge(age); true {
 
-				if err != nil {
-					log.Fatalf("error encountered: %w", err)
-				}
-
-				if !valid {
-					log.Fatalf("age %d is not yet legal", age)
-				}
-			}
-
-			// Check if card is accepted
-			card := `Visa`
-
-			if valid, err = IsCardAccepted(card); true {
-				if err != nil {
-					log.Fatalf("error encountered: %w", err)
-				}
-
-				if !valid {
-					log.Fatalf("A %s card is not honored here", card)
-				}
-			}
-
-			// Check if the customer is carrying banned things
-			things := []string{`Gun`,`Cellphone`,`Booze`}
-
-			if valid, err = AreThingsAllowed(things); true {
-				if err != nil {
-					log.Fatalf("error encountered: %w", err)
-				}
-
-				if !valid {
-					log.Fatalf("You cannot carry %s inside", strings.Join(things, `,`))
-				}
-			}
-
-			log.Println("You can enter the premises!")
+		if err != nil {
+			log.Fatalf("error encountered: %w", err)
 		}
-		```
+
+		if !valid {
+			log.Fatalf("age %d is not yet legal", age)
+		}
+	}
+
+	// Check if card is accepted
+	card := `Visa`
+
+	if valid, err = IsCardAccepted(card); true {
+		if err != nil {
+			log.Fatalf("error encountered: %w", err)
+		}
+
+		if !valid {
+			log.Fatalf("A %s card is not honored here", card)
+		}
+	}
+
+	// Check if the customer is carrying banned things
+	things := []string{`Gun`,`Cellphone`,`Booze`}
+
+	if valid, err = AreThingsAllowed(things); true {
+		if err != nil {
+			log.Fatalf("error encountered: %w", err)
+		}
+
+		if !valid {
+			log.Fatalf("You cannot carry %s inside", strings.Join(things, `,`))
+		}
+	}
+
+	log.Println("You can enter the premises!")
+}
+```
 
 This format allows you to read the context of validation much clearer.
