@@ -1,3 +1,5 @@
+# Golang Code
+
 # Input Validation Block Formatting
 
 Input validation is a must to reduce panic errors when your application runs or serves based on the inputs, whether its a command line argument or a JSON document body.
@@ -6,7 +8,7 @@ whether the argument is valid or not, and the error value returns a non-nil valu
 
 For example:
 
-	```golang
+	```go
 	func main () {
 
 		// Check legal age
@@ -28,7 +30,7 @@ With this length of the code, there isn't an apparent issue yet. However, when y
 
 	For example:
 
-		```golang
+		```go
 		func main () {
 
 			var (
@@ -79,7 +81,7 @@ With this code, you can easily be lost where the err value belongs to. If you ar
 
 When I encounter a situation like this, I use the if-semicolon syntax and put a `true` value after it to group the code and allow the values returned by a validation function to pass through and further check the return values:
 
-		```golang
+		```go
 		func main () {
 
 			var (
