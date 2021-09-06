@@ -2,7 +2,7 @@
 
 # Input Validation Block Formatting
 
-Input validation is a must to reduce panic errors when your application runs or serves based on the inputs, whether its a command line argument or a JSON document body.
+Input validation is a must to reduce panic errors when your application runs or serves based on the inputs, whether it's a command line argument or a JSON document body.
 In most cases, a validation function needs to return two values: the boolean value and the error returned. The boolean value stores the information
 whether the argument is valid or not, and the error value returns a non-nil value when it encounters one.
 
@@ -79,7 +79,7 @@ func main () {
 }
 ```
 
-With this code, you can easily be lost where the err value belongs to. If you are reusing the boolean part of the return value, you'll find out that these things need to be in context.
+With this code, you can easily be lost to find where the err value belongs to. If you are reusing the boolean part of the return value, you'll find out that these things need to be in context.
 
 When I encounter a situation like this, I use the if-semicolon syntax and put a `true` value after it to group the code and allow the values returned by a validation function to pass through and further check the return values:
 
@@ -136,3 +136,8 @@ func main () {
 ```
 
 This format allows you to read the context of validation much clearer.
+
+*Elizalde Baguinon,
+September 6, 2021*
+
+E-mail: mizmerize@yahoo.com
